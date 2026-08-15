@@ -1,114 +1,118 @@
 # Face War
 
-Face War e um jogo 2D de acao no estilo arcade, desenvolvido em Python com Pygame. O jogador controla um rosto feliz em um cenario deserto, desvia dos inimigos que atravessam a tela e dispara projeteis para destrui-los.
+Face War is a 2D arcade-style action game developed in Python with Pygame. The player controls a happy face in a desert setting, dodges enemies crossing the screen, and fires projectiles to destroy them.
 
-## Sobre o projeto
+## About the project
 
-O jogo apresenta uma janela de 840 x 480 pixels. O personagem permanece no lado esquerdo da tela e os inimigos surgem aleatoriamente fora do limite direito, avancando na direcao do jogador. A partida continua enquanto o personagem nao colidir com um inimigo.
+The game runs in an 840 x 480 pixel window. The character remains on the left side of the screen while enemies appear randomly outside the right edge and move toward the player. The game continues until the character collides with an enemy.
 
-Quando um tiro atinge um asteroide, os dois sprites sao removidos. Quando um asteroide atinge o jogador, o jogo entra no estado de game over, reproduz o som correspondente e registra `Game Over` no terminal.
+When a shot hits an asteroid, both sprites are removed. When an asteroid hits the player, the game enters the game over state, plays the corresponding sound, and prints `Game Over` in the terminal.
 
-## Como jogar
+## How to play
 
-### Executando pelo codigo-fonte
+### Running from the source code
 
-1. Instale o Python 3.
-2. Instale a dependencia do projeto:
+1. Install Python 3.
+2. Install the project dependency:
 
    ```bash
    pip install pygame
    ```
 
-3. Abra um terminal na pasta do projeto.
-4. Execute:
+3. Open a terminal in the project folder.
+4. Run:
 
    ```bash
    python app.py
    ```
 
-Os arquivos da pasta `Resources/` precisam permanecer no mesmo local relativo ao projeto, pois o jogo carrega as imagens e os sons usando esses caminhos.
+The files in the `Resources/` folder must remain in the same relative location because the game loads images and sounds using these paths.
 
-### Executando a versao compilada
+### Running the compiled version
 
-O repositorio tambem inclui `app.exe`, que pode ser executado diretamente no Windows. Mesmo nessa versao, os recursos visuais e sonoros devem estar disponiveis conforme a estrutura distribuida com o projeto.
+The repository also includes `app.exe`, which can be run directly on Windows. The visual and audio resources must still be available according to the distributed project structure.
 
-## Controles
+## Controls
 
-| Tecla           | Acao                      |
-| --------------- | ------------------------- |
-| `W`             | Move o jogador para cima  |
-| `S`             | Move o jogador para baixo |
-| `Espaco`        | Dispara um projetil       |
-| Fechar a janela | Encerra o jogo            |
+| Key              | Action               |
+| ---------------- | -------------------- |
+| `W`              | Move the player up   |
+| `S`              | Move the player down |
+| `Space`          | Fire a projectile    |
+| Close the window | Exit the game        |
 
-O movimento usa aceleracao: ao pressionar `W` ou `S`, a velocidade aumenta gradualmente. Quando nenhuma dessas teclas e pressionada, a velocidade diminui progressivamente, produzindo um efeito de desaceleracao. O personagem fica limitado aos limites superior e inferior da janela.
+Movement uses acceleration: when `W` or `S` is pressed, the speed gradually increases. When neither key is pressed, the speed progressively decreases, creating a deceleration effect. The character is restricted to the top and bottom boundaries of the window.
 
-## Mecanicas
+## Mechanics
 
-- A janela e atualizada a 60 quadros por segundo.
-- Asteroides aparecem periodicamente, com 80% de chance a cada ciclo de geracao.
-- Cada asteroide recebe uma posicao vertical aleatoria e uma velocidade aleatoria entre 2 e 4 pixels por quadro, aproximadamente.
-- Asteroides que saem pela esquerda sao removidos da memoria do jogo.
-- Cada tiro viaja horizontalmente para a direita a 5 pixels por quadro.
-- Tiros que ultrapassam o limite direito sao removidos.
-- Colisoes entre jogador e asteroides e entre tiros e asteroides usam `pygame.sprite.collide_mask`, permitindo uma deteccao baseada na forma dos sprites.
-- A musica de fundo fica em loop durante a execucao.
-- Sons separados sao usados para disparos e game over.
+- The window is updated at 60 frames per second.
+- Asteroids appear periodically, with an 80% chance at each spawn cycle.
+- Each asteroid receives a random vertical position and a random speed between approximately 2 and 4 pixels per frame.
+- Asteroids that leave the screen through the left edge are removed from the game.
+- Each shot travels horizontally to the right at 5 pixels per frame.
+- Shots that pass the right edge of the window are removed.
+- Collisions between the player and asteroids, and between shots and asteroids, use `pygame.sprite.collide_mask`, allowing shape-based sprite collision detection.
+- Background music loops during execution.
+- Separate sounds are used for shots and game over.
 
-## Estrutura do projeto
+## Project structure
 
 ```text
 Face-War/
-|-- app.py                 # Inicializacao, loop principal e regras da partida
-|-- player.py              # Sprite e movimento do jogador
-|-- asteroid.py            # Criacao, movimento e remocao dos inimigos
-|-- shot.py                # Criacao, movimento e remocao dos tiros
-|-- README.md              # Documentacao do projeto
-|-- TODO.md                # Tarefas pendentes e melhorias futuras
-|-- Aluno.txt              # Identificacao do aluno
-|-- app.exe                # Versao executavel para Windows
-`-- Resources/             # Imagens e arquivos de audio
+|-- app.py                 # Initialization, main loop, and game rules
+|-- player.py              # Player sprite and movement
+|-- asteroid.py            # Enemy creation, movement, and removal
+|-- shot.py                # Shot creation, movement, and removal
+|-- README.md              # Project documentation
+|-- TODO.md                # Pending tasks and future improvements
+|-- Aluno.txt              # Student identification
+|-- app.exe                # Windows executable version
+`-- Resources/             # Images and audio files
 ```
 
-### Responsabilidade dos arquivos Python
+### Python file responsibilities
 
 #### `app.py`
 
-Inicializa o Pygame, cria a janela, carrega o cenario e os sons, cria os grupos de sprites e controla o loop principal. Tambem processa os eventos do teclado, gera asteroides, atualiza os objetos, desenha a cena e trata as colisoes.
+Initializes Pygame, creates the window, loads the background and sounds, creates the sprite groups, and controls the main loop. It also processes keyboard events, spawns asteroids, updates objects, draws the scene, and handles collisions.
 
 #### `player.py`
 
-Define a classe `Player`, que herda de `pygame.sprite.Sprite`. O personagem usa `HappyFace.png`, tem tamanho de 100 x 100 pixels e controla sua posicao vertical com aceleracao e desaceleracao.
+Defines the `Player` class, which inherits from `pygame.sprite.Sprite`. The character uses `HappyFace.png`, has a size of 100 x 100 pixels, and controls its vertical position with acceleration and deceleration.
 
 #### `asteroid.py`
 
-Define a classe `Asteroid`. O inimigo usa `RedGuy.png`, tem tamanho de 50 x 50 pixels, aparece fora do lado direito da janela e se move para a esquerda. Ao sair da tela, e destruido.
+Defines the `Asteroid` class. The enemy uses `RedGuy.png`, has a size of 50 x 50 pixels, appears outside the right side of the window, and moves to the left. It is destroyed when it leaves the screen.
 
 #### `shot.py`
 
-Define a classe `Shot`. O projetil usa `Shot.png`, tem tamanho de 20 x 20 pixels e se move para a direita. Ao sair da janela, e removido.
+Defines the `Shot` class. The projectile uses `Shot.png`, has a size of 20 x 20 pixels, and moves to the right. It is removed when it leaves the window.
 
-## Recursos
+## Resources
 
-| Arquivo               | Uso                                              |
-| --------------------- | ------------------------------------------------ |
-| `Desert.png`          | Cenario principal, redimensionado para 840 x 480 |
-| `HappyFace.png`       | Imagem do jogador                                |
-| `RedGuy.png`          | Imagem dos asteroides/inimigos                   |
-| `Shot.png`            | Imagem dos projeteis                             |
-| `BackgroundSound.mp3` | Musica de fundo em loop                          |
-| `swing.wav`           | Som de disparo                                   |
-| `GameOver.wav`        | Som de colisao/game over                         |
-| `Background.jpg`      | Recurso visual adicional presente na pasta       |
-| `battleThemeA.mp3`    | Recurso sonoro adicional presente na pasta       |
-| `Destroyed.wav`       | Recurso sonoro adicional presente na pasta       |
+| File                  | Usage                                             |
+| --------------------- | ------------------------------------------------- |
+| `Desert.png`          | Main background, scaled to 840 x 480              |
+| `HappyFace.png`       | Player image                                      |
+| `RedGuy.png`          | Asteroid/enemy image                              |
+| `Shot.png`            | Projectile image                                  |
+| `BackgroundSound.mp3` | Looping background music                          |
+| `swing.wav`           | Shooting sound                                    |
+| `GameOver.wav`        | Collision/game over sound                         |
+| `Background.jpg`      | Additional visual resource included in the folder |
+| `battleThemeA.mp3`    | Additional audio resource included in the folder  |
+| `Destroyed.wav`       | Additional audio resource included in the folder  |
 
-Os tres ultimos arquivos estao incluidos no repositorio, mas nao sao carregados atualmente por `app.py`.
+The last three files are included in the repository but are not currently loaded by `app.py`.
 
-## Tecnologias utilizadas
+## Technologies used
 
-- **Python 3:** linguagem usada na implementacao.
-- **Pygame:** biblioteca responsavel pela janela, loop de eventos, sprites, grupos, imagens, audio, teclado, colisoes e controle de tempo.
-- **Random:** biblioteca padrao usada para sortear posicoes, velocidades e a chance de surgimento dos asteroides.
-- **OS e Sys:** bibliotecas padrao usadas para resolver o diretorio de execucao e dar suporte a execucao empacotada, incluindo a versao executavel.
-- **PyInstaller ou ferramenta equivalente:** a presenca de `app.exe` indica uma distribuicao compilada para Windows; o comando de empacotamento nao esta registrado no repositorio.
+- **Python 3:** Programming language used for the implementation.
+- **Pygame:** Library responsible for the window, event loop, sprites, groups, images, audio, keyboard input, collisions, and time control.
+- **Random:** Standard library module used to choose positions, speeds, and the asteroid spawn chance.
+- **OS and Sys:** Standard library modules used to resolve the execution directory and support packaged execution, including the executable version.
+- **PyInstaller or an equivalent tool:** The presence of `app.exe` indicates a compiled Windows distribution; the packaging command is not recorded in the repository.
+
+## Planning
+
+The checklist of tasks needed to complete the project and the list of future improvements are available in [TODO.md](TODO.md).
